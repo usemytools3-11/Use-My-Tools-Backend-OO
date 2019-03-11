@@ -1,14 +1,16 @@
 const express = require("express");
+const authRouter = require("../routers/authRouter");
+const userRouter = require("../routers/userRouter");
 const helmet = require("helmet");
-
-const middleware = require("./middleware");
-//const routes =
-
-//const secrets =
-
+const cors = require("cors");
 const server = express();
 
-middleware(server);
+//middleware
+server.use(helmet());
+server.use(express.json());
+server.use(cors());
+server.use("/api/auth", authRouter);
+server.use("/api/users", userRouter);
 
 server.get("/", (req, res) => {
   res.send("it's working!");
