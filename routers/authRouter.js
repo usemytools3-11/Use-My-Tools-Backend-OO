@@ -17,33 +17,33 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-// after /api/auth
-// router.post("/register", (req, res) => {
-//   let user = req.body;
-//   const hash = bcrypt.hashSync(user.password, 12);
-//   user.password = hash;
-//   Users.add(user)
-//     .then(saved => {
-//       res.status(201).json(saved);
-//     })
-//     .catch(error => {
-//       res.status(500).json(error);
-//     });
-// });
-
+// after / api / auth;
 router.post("/register", (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 12);
   user.password = hash;
-  db("users")
-    .insert(user, "*")
-    .then(user => {
-      res.status(201).json(user);
+  Users.add(user)
+    .then(saved => {
+      res.status(201).json(saved);
     })
     .catch(error => {
       res.status(500).json(error);
     });
 });
+
+// router.post("/register", (req, res) => {
+//   let user = req.body;
+//   const hash = bcrypt.hashSync(user.password, 12);
+//   user.password = hash;
+//   db("users")
+//     .insert(user, "*")
+//     .then(user => {
+//       res.status(201).json(user);
+//     })
+//     .catch(error => {
+//       res.status(500).json(error);
+//     });
+// });
 
 router.post("/login", (req, res) => {
   let { email, password } = req.body;
