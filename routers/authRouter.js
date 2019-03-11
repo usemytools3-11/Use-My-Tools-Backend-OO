@@ -20,19 +20,15 @@ function generateToken(user) {
 // after /api/auth
 router.post("/register", (req, res) => {
   let user = req.body;
-  if (!user.first_name || !user.last_name || !user.email || !user.password) {
-    res.status(404).json({ error: "enter all fields!" });
-  } else {
-    const hash = bcrypt.hashSync(user.password, 12);
-    user.password = hash;
-    Users.add(user)
-      .then(saved => {
-        res.status(201).json(saved);
-      })
-      .catch(error => {
-        res.status(500).json(error);
-      });
-  }
+  const hash = bcrypt.hashSync(user.password, 12);
+  user.password = hash;
+  Users.add(user)
+    .then(saved => {
+      res.status(201).json(saved);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
 });
 
 router.post("/login", (req, res) => {
