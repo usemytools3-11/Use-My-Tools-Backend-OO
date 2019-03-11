@@ -10,13 +10,14 @@ function getBy(filter) {
 
 function getById(id) {
   return db("users")
-    .where({ id })
+    .where({ id: id })
     .first();
 }
 
 async function add(user) {
   const [id] = await db("users").insert(user);
-  return getById(id);
+  console.log(getById(id));
+  return user;
 }
 
 function remove(id) {
