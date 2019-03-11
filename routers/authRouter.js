@@ -20,25 +20,29 @@ function generateToken(user) {
 // after /api/auth
 router.post("/register", (req, res) => {
   let user = req.body;
+  console.log(user);
   const hash = bcrypt.hashSync(user.password, 12);
+  console.log(hash);
   user.password = hash;
   Users.add(user)
     .then(saved => {
+      console.log("saved", saved);
       res.status(201).json(saved);
     })
     .catch(error => {
+      console.log("users", Users);
       res.status(500).json(error);
     });
 });
 
 router.post("/login", (req, res) => {
-  let { username, password } = req.body;
-  Users.getBy({ username })
+  let { email, password } = req.body;
+  Users.getBy({ email })
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user);
-        res.status(200).json({ message: `Welcome ${user.username}`, token });
+        res.status(200).json({ message: `Welcome ${user.first_name}`, token });
       } else {
         res.status(401).json({ message: "invalid credentials" });
       }
