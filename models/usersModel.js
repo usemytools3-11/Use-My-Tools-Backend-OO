@@ -9,9 +9,7 @@ function getBy(filter) {
 }
 
 function getById(id) {
-  return db("users")
-    .where({ id: id })
-    .first();
+  return db("users").where({ id });
 }
 
 async function add(user) {
