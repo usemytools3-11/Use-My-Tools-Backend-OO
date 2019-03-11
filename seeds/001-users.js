@@ -18,10 +18,8 @@ for (let i = 1; i < 20; i++) {
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex("users")
-    .truncate()
-    .then(function() {
-      // Inserts seed entries
-      return knex("users").insert(userList);
-    });
+  return knex("users").then(function() {
+    // Inserts seed entries
+    return knex("users").insert(userList);
+  });
 };
