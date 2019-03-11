@@ -20,6 +20,9 @@ function generateToken(user) {
 // after /api/auth
 router.post("/register", (req, res) => {
   let user = req.body;
+  if (!first_name || !last_name || !email || password) {
+    res.status(404).json({ error: "enter all fields!" });
+  }
   const hash = bcrypt.hashSync(user.password, 12);
   user.password = hash;
   Users.add(user)
