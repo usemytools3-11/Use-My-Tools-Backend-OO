@@ -12,7 +12,7 @@ server.use(cors());
 server.use("/api/auth", authRouter);
 server.use("/api/users", userRouter);
 
-server.get("/", (req, res) => {
+server.get("/api", (req, res) => {
   res.send("it's working!");
 });
 

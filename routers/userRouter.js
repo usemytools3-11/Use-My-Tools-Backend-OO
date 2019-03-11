@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
       res.status(200).json({ users });
     })
     .catch(err => {
-      res.status(500).json({ message: "could not fetch users!" });
+      res.status(500).json(err);
     });
 });
 

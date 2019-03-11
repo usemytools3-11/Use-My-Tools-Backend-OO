@@ -20,17 +20,13 @@ function generateToken(user) {
 // after /api/auth
 router.post("/register", (req, res) => {
   let user = req.body;
-  console.log(user);
   const hash = bcrypt.hashSync(user.password, 12);
-  console.log(hash);
   user.password = hash;
   Users.add(user)
     .then(saved => {
-      console.log("saved", saved);
       res.status(201).json(saved);
     })
     .catch(error => {
-      console.log("users", Users);
       res.status(500).json(error);
     });
 });
