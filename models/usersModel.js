@@ -15,8 +15,7 @@ function getById(id) {
 }
 
 async function add(user) {
-  const [id] = await db("users").insert(user, "*");
-  return getById;
+  return await db("users").insert(user, "*");
 }
 
 function remove(id) {
