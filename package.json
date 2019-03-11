@@ -6,6 +6,7 @@
   "author": "Olivia Osborn",
   "license": "MIT",
   "scripts": {
+    "start": "node index.js",
     "server": "nodemon index.js"
   },
   "devDependencies": {
