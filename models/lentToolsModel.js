@@ -14,6 +14,12 @@ function getById(id) {
     .first();
 }
 
+function update(id, lentTool) {
+  return db("tools")
+    .where({ id })
+    .update(lentTool, "*");
+}
+
 async function add(lentTool) {
   const [id] = await db("lent-tools").insert(lentTool, "id");
   return getById(id);
@@ -30,5 +36,6 @@ module.exports = {
   getBy,
   getById,
   add,
+  update,
   remove
 };

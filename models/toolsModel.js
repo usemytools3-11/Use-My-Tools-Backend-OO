@@ -33,6 +33,7 @@ function update(id, newTool) {
     .where({ id })
     .update(newTool, "*");
 }
+
 function remove(id) {
   return db("tools")
     .where({ id })
