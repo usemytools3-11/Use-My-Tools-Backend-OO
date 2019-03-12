@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
     tools.increments();
     tools.string("name", 128).notNullable();
     tools.string("photo_url");
-    tools.integer("price").notNullable();
+    tools.decimal("price").notNullable();
     tools
       .integer("lender_id")
       .notNullable()
