@@ -77,7 +77,7 @@ router.get("/authorization", (req, res) => {
       } else {
         const id = authorizedData.subject;
         Users.getById({ id }).then(user => {
-          res.status(200).json({ user });
+          res.status(200).json(user);
         });
       }
     });
