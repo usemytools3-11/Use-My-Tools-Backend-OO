@@ -5,18 +5,26 @@ function get() {
 }
 
 function getBy(filter) {
-  return db("tools").where(filter);
+  return db("tools")
+    .where(filter)
+    .then(tools => dbToJs(tools));
 }
 
-function getById(id) {
-  return db("tools")
+async function getById(id) {
+  const tool = await db("tools")
     .where({ id })
     .first();
+
+  if (tool) {
+    return Promise.resolve(dbToJs(tool));
+  } else {
+    return Promise.resolve(null);
+  }
 }
 
 async function add(tool) {
-  console.log("price type: ", typeof tool.price);
-  const [id] = await db("tools").insert(tool, "*");
+  const [id] = await db("tools").insert(tool, "id");
+
   return getById(id);
 }
 
@@ -29,6 +37,16 @@ function remove(id) {
   return db("tools")
     .where({ id })
     .del();
+}
+
+function dbToJs(data) {
+  if (Array.isArray(data)) {
+    return data.map(row => {
+      return { ...row, price: Number(row.price) };
+    });
+  } else {
+    return { ...data, price: Number(data.price) };
+  }
 }
 
 module.exports = {

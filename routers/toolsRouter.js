@@ -32,11 +32,11 @@ router.post("/", async (req, res) => {
     res.status(400).json({ error: "must enter name, price, and lender_id!" });
   } else {
     try {
-      let price = Number(req.body.price);
-      const tool = await Tools.add({ ...req.body, price });
-      res.status(201).json({ tool, price });
+      const tool = await Tools.add(req.body);
+      console.log("\n****** tool ******\n", tool);
+      res.status(201).json({ tool });
     } catch (error) {
-      res.status(500).json({ error, price });
+      res.status(500).json({ error });
     }
   }
 });
