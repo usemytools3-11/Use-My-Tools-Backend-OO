@@ -42,16 +42,32 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  try {
-    const tool = await Tools.update(req.params.id, req.body);
-    if (tool) {
-      res.status(200).json(tool);
-    } else {
-      res.status(404).json({ message: "couldn't find tool by that ID" });
+  if (!req.body.name || !req.body.price || !req.body.lender_id) {
+    res.status(400).json({ error: "must enter name, price, and lender_id!" });
+  } else {
+    try {
+      const tool = await Tools.update(req.params.id, req.body);
+      if (tool) {
+        res.status(200).json(tool);
+      } else {
+        res.status(404).json({ message: "couldn't find tool by that ID" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "error updating tool" });
     }
-  } catch (error) {
-    res.status(500).json({ message: "error updating tool" });
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const tool = await Tools.remove(req.params.id);
+    if (tool > 0) {
+      res.status(200).json({ message: "tool has been deleted!" });
+    } else {
+      res.status(404).json({ message: "tool with that ID could not be found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "error deleting the tool" });
+  }
+});
 module.exports = router;
