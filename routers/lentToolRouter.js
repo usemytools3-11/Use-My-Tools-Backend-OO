@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
     res.status(400).json({ error: "must enter borrower_id and tool_id!" });
   } else {
     try {
-      const tool = await Tools.add(req.body);
+      const tool = await lentTools.add(req.body);
       res.status(201).json(tool);
     } catch (error) {
       res.status(500).json(error);
