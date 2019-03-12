@@ -15,7 +15,7 @@ function getById(id) {
 }
 
 async function add(tool) {
-  const [id] = await db("tools").insert(tool);
+  const [id] = await db("tools").insert(tool, "*");
   return getById(id);
 }
 
