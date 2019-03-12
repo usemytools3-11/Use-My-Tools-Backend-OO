@@ -12,6 +12,7 @@ exports.up = function(knex, Promise) {
       .inTable("users")
       .onDelete("RESTRICT")
       .onUpdate("CASCADE");
+    tools.boolean("is_borrowed").defaultTo(false);
   });
 };
 
