@@ -28,7 +28,8 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  if (!req.body.name || !req.body.price || !req.body.lender_id) {
+  price = parseFloat(req.body.price);
+  if (!req.body.name || !price || !req.body.lender_id) {
     res.status(404).json({ error: "must enter name, price, and lender_id!" });
   } else {
     try {
