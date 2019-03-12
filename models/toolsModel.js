@@ -15,6 +15,7 @@ function getById(id) {
 }
 
 async function add(tool) {
+  console.log("price type: ", typeof tool.price);
   const [id] = await db("tools").insert(tool, "*");
   return getById(id);
 }

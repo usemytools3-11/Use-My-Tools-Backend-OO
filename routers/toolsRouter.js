@@ -28,11 +28,11 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  let price = Number(req.body.price);
-  if (!req.body.name || !price || !req.body.lender_id) {
-    res.status(404).json({ error: "must enter name, price, and lender_id!" });
+  if (!req.body.name || !req.body.price || !req.body.lender_id) {
+    res.status(400).json({ error: "must enter name, price, and lender_id!" });
   } else {
     try {
+      let price = Number(req.body.price);
       const tool = await Tools.add({ ...req.body, price });
       res.status(201).json({ tool, price });
     } catch (error) {
