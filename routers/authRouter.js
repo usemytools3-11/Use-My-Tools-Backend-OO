@@ -68,6 +68,40 @@ router.post("/login", (req, res) => {
     });
 });
 
+router.post("/authorization", (req, res) => {
+  const token = req.headers.authorization;
+  if (token) {
+    decoded = jwt.verify(token, secret, (error, authorizedData) => {
+      if (error) {
+        res.status(401).json({ message: "authorization failed!" });
+      } else {
+        const id = authorizedData.subject;
+        Users.getById({ id }).then(user => {
+          res.status(200).json(user);
+        });
+      }
+    });
+  } else {
+    res.status(401).json({ message: "no record of this account!" });
+  }
+});
+
+// function authorization(req, res, next) {
+//   const token = req.headers.authorization;
+//   if (token) {
+//     jwt.verify(token, secret, (error, decodedToken) => {
+//       if (error) {
+//         res.status(401).json({ message: "authorization failed!" });
+//       } else {
+//         req.decodedJwt = decodedToken;
+//         next();
+//       }
+//     });
+//   } else {
+//     res.status(401).json({ message: "no record of this account!" });
+//   }
+// }
+
 // function restricted(req, res, next) {
 //   const token = req.headers.authorization;
 //   if (token) {
