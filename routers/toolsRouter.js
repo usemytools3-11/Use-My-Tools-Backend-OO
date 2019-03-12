@@ -27,8 +27,17 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// router.post("/", (req, res) => {
-//     if ()
-// })
+router.post("/", async (req, res) => {
+  if (!req.body.name || !req.body.price || !req.body.lender_id) {
+    res.status(404).json({ error: "must enter name, price, and lender_id!" });
+  } else {
+    try {
+      const tool = await Tools.add(req.body);
+      res.status(201).json({ tool });
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+});
 
 module.exports = router;
