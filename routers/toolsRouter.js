@@ -34,9 +34,9 @@ router.post("/", async (req, res) => {
   } else {
     try {
       const tool = await Tools.add(req.body);
-      res.status(201).json(tool, price);
+      res.status(201).json({ tool, price });
     } catch (error) {
-      res.status(500).json(error, price);
+      res.status(500).json({ error, price });
     }
   }
 });
