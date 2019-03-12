@@ -22,4 +22,9 @@ router.get("/:id", (req, res) => {
       .catch(error => res.status(500).json({ error: "couldn't fetch data" }));
   }
 });
+
+// router.post("/", (req, res) => {
+//     if ()
+// })
+
 module.exports = router;

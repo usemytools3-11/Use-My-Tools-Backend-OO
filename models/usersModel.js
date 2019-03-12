@@ -11,7 +11,9 @@ function getBy(filter) {
 }
 
 function getById(id) {
-  return db("users").where(id);
+  return db("users")
+    .where(id)
+    .first();
 }
 
 async function add(user) {
