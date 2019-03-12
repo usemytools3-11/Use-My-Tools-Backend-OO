@@ -41,4 +41,17 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    const tool = await Tools.update(req.params.id, req.body);
+    if (tool) {
+      res.status(200).json(tool);
+    } else {
+      res.status(404).json({ message: "couldn't find tool by that ID" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "error updating tool" });
+  }
+});
+
 module.exports = router;

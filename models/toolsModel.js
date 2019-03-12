@@ -20,6 +20,11 @@ async function add(tool) {
   return getById(id);
 }
 
+function update(id, newTool) {
+  return db("tools")
+    .where({ id })
+    .update(newTool, "*");
+}
 function remove(id) {
   return db("tools")
     .where({ id })
@@ -31,5 +36,6 @@ module.exports = {
   getBy,
   getById,
   add,
-  remove
+  remove,
+  update
 };
