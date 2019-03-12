@@ -1,25 +1,30 @@
 const router = require("express").Router();
 const lentTools = require("../models/lentToolsModel");
 
-router.get("/", async (req, res) => {
-  try {
-    lentTools = await lentTools.get();
-    res.status(200).json(lentTools);
-  } catch (error) {
-    res.status(500).json({ message: "could not fetch tools" });
-  }
+router.get("/", (req, res) => {
+  lentTools
+    .get()
+    .then(tools => {
+      res.status(200).json(tools);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
 });
 
 router.get("/:id", async (req, res) => {
   try {
-    const lentTool = await lentTools.findById(req.params.id);
-    if (lentTool) {
-      res.status(200).json(lentTool);
+    const tool = await lentTools.getById(req.params.id);
+
+    if (tool) {
+      res.status(200).json(tool);
     } else {
-      res.status(400).json({ message: "rental not found!" });
+      res.status(404).json({ message: "tool with that ID does not exist!" });
     }
   } catch (error) {
-    res.status(500).json({ error: "could not fetch lent tool" });
+    res.status(500).json({
+      message: "Error retrieving the tool"
+    });
   }
 });
 
