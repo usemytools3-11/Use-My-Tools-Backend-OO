@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
   } else {
     try {
       const tool = await Tools.add(req.body);
-      res.status(201).json({ tool });
+      res.status(201).json(tool);
     } catch (error) {
       res.status(500).json(error);
     }
