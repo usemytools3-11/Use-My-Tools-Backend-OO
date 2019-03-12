@@ -68,7 +68,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.post("/authorization", (req, res) => {
+router.get("/authorization", (req, res) => {
   const token = req.headers.authorization;
   if (token) {
     decoded = jwt.verify(token, secret, (error, authorizedData) => {
