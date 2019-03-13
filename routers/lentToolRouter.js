@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const lentTools = require("../models/lentToolsModel");
 const Tools = require("../models/toolsModel");
+const { restricted } = require("../middleware/middleware");
 
-router.get("/", (req, res) => {
+router.get("/", restricted, (req, res) => {
   lentTools
     .get()
     .then(tools => {
@@ -13,7 +14,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", restricted, async (req, res) => {
   try {
     const tool = await lentTools.getById(req.params.id);
 
@@ -29,7 +30,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", changeBool, async (req, res) => {
+router.post("/", restricted, changeBool, async (req, res) => {
   if (!req.body.borrower_id || !req.body.tool_id) {
     res.status(400).json({ error: "must enter borrower_id and tool_id!" });
   } else {
@@ -66,7 +67,7 @@ async function changeBool(req, res, next) {
   }
 }
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", restricted, async (req, res) => {
   if (!req.body.borrower_id || !req.body.tool_id) {
     res.status(400).json({ error: "must enter borrower_id and tool_id!" });
   } else {
@@ -83,7 +84,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", changeBool, async (req, res) => {
+router.delete("/:id", restricted, changeBool, async (req, res) => {
   try {
     const tool_id = req.params.id;
     lentTool = await lentTools.getBy({ tool_id });
@@ -103,21 +104,5 @@ router.delete("/:id", changeBool, async (req, res) => {
     res.status(500).status({ error });
   }
 });
-
-// function restricted(req, res, next) {
-//   const token = req.headers.authorization;
-//   if (token) {
-//     jwt.verify(token, secret, (error, decodedToken) => {
-//       if (error) {
-//         res.status(401).json({ message: "login failed!" });
-//       } else {
-//         req.decodedJwt = decodedToken;
-//         next();
-//       }
-//     });
-//   } else {
-//     res.status(401).json({ message: "No record of this account!" });
-//   }
-// }
 
 module.exports = router;

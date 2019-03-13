@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Users = require("../models/usersModel");
-
-router.get("/", (req, res) => {
+const { restricted } = require("../middleware/middleware");
+router.get("/", restricted, (req, res) => {
   Users.get()
     .then(users => {
       res.status(200).json(users);
@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", restricted, async (req, res) => {
   try {
     const user = await Users.getById(req.params.id);
 
@@ -25,7 +25,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", restricted, async (req, res) => {
   if (
     !req.body.first_name ||
     !req.body.last_name ||
@@ -49,7 +49,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", restricted, async (req, res) => {
   try {
     const user = await Users.remove(req.params.id);
     if (user > 0) {

@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const Tools = require("../models/toolsModel");
+const { restricted } = require("../middleware/middleware");
 
-router.get("/", (req, res) => {
+router.get("/", restricted, (req, res) => {
   Tools.get()
     .then(tools => {
       res.status(200).json({ tools });
@@ -11,7 +12,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", restricted, async (req, res) => {
   try {
     const tool = await Tools.getById(req.params.id);
 
@@ -27,7 +28,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", restricted, async (req, res) => {
   if (!req.body.name || !req.body.price || !req.body.lender_id) {
     res.status(400).json({ error: "must enter name, price, and lender_id!" });
   } else {
@@ -41,7 +42,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", restricted, async (req, res) => {
   if (!req.body.name || !req.body.price || !req.body.lender_id) {
     res.status(400).json({ error: "must enter name, price, and lender_id!" });
   } else {
@@ -65,7 +66,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", restricted, async (req, res) => {
   try {
     const tool = await Tools.remove(req.params.id);
     if (tool > 0) {

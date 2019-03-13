@@ -37,20 +37,6 @@ router.post("/register", (req, res) => {
   }
 });
 
-// router.post("/register", (req, res) => {
-//   let user = req.body;
-//   const hash = bcrypt.hashSync(user.password, 12);
-//   user.password = hash;
-//   db("users")
-//     .insert(user, "*")
-//     .then(user => {
-//       res.status(201).json(user);
-//     })
-//     .catch(error => {
-//       res.status(500).json(error);
-//     });
-// });
-
 router.post("/login", (req, res) => {
   let { email, password } = req.body;
   Users.getBy({ email })
@@ -85,37 +71,5 @@ router.get("/authorization", (req, res) => {
     res.status(401).json({ message: "no record of this account!" });
   }
 });
-
-// function authorization(req, res, next) {
-//   const token = req.headers.authorization;
-//   if (token) {
-//     jwt.verify(token, secret, (error, decodedToken) => {
-//       if (error) {
-//         res.status(401).json({ message: "authorization failed!" });
-//       } else {
-//         req.decodedJwt = decodedToken;
-//         next();
-//       }
-//     });
-//   } else {
-//     res.status(401).json({ message: "no record of this account!" });
-//   }
-// }
-
-// function restricted(req, res, next) {
-//   const token = req.headers.authorization;
-//   if (token) {
-//     jwt.verify(token, secret, (error, decodedToken) => {
-//       if (error) {
-//         res.status(401).json({ message: "login failed!" });
-//       } else {
-//         req.decodedJwt = decodedToken;
-//         next();
-//       }
-//     });
-//   } else {
-//     res.status(401).json({ message: "No record of this account!" });
-//   }
-// }
 
 module.exports = router;
