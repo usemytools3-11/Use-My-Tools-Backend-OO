@@ -12,7 +12,7 @@ function getBy(filter) {
 
 function getById(id) {
   return db("users")
-    .where({ id })
+    .where(id)
     .first();
 }
 
