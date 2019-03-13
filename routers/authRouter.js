@@ -76,7 +76,7 @@ router.get("/authorization", (req, res) => {
         res.status(401).json({ message: "authorization failed!" });
       } else {
         const id = authorizedData.subject;
-        Users.getById({ id }).then(user => {
+        Users.getById(id).then(user => {
           res.status(200).json(user);
         });
       }
