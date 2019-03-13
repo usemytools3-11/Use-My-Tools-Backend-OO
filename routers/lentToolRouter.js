@@ -44,11 +44,12 @@ router.post("/", changeBool, async (req, res) => {
 
 async function changeBool(req, res, next) {
   try {
-    const tool = await Tools.getById(req.body.tool_id);
+    const id = req.body.tool_id ? req.body.tool_id : req.params.id;
+    console.log(id);
+    const tool = await Tools.getById(id);
     if (tool) {
       try {
-        const boolUpdated = { ...tool, is_borrowed: true };
-        console.log(boolUpdated);
+        const boolUpdated = { ...tool, is_borrowed: !tool.is_borrowed };
         await Tools.update(boolUpdated.id, boolUpdated);
 
         next();
@@ -82,18 +83,24 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", changeBool, async (req, res) => {
   try {
-    const tool = await lentTools.remove(req.params.id);
-    if (tool > 0) {
-      res.status(200).json({ message: "lent-tool has been deleted!" });
-    } else {
-      res
-        .status(404)
-        .json({ message: "lent-tool with that ID could not be found" });
+    const tool_id = req.params.id;
+    lentTool = await lentTools.getBy({ tool_id });
+    try {
+      const tool = await lentTools.remove(lentTool.id);
+      if (tool > 0) {
+        res.status(200).json({ message: "lent-tool has been deleted!" });
+      } else {
+        res
+          .status(404)
+          .json({ message: "lent-tool with that ID could not be found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "error deleting the lent tool" });
     }
   } catch (error) {
-    res.status(500).json({ message: "error deleting the lent-tool" });
+    res.status(500).status({ error });
   }
 });
 

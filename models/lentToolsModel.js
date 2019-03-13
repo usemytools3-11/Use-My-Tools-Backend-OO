@@ -5,7 +5,9 @@ function get() {
 }
 
 function getBy(filter) {
-  return db("lent-tools").where(filter);
+  return db("lent-tools")
+    .where(filter)
+    .first();
 }
 
 function getById(id) {
