@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
       .unsigned()
       .references("id")
       .inTable("users")
-      .onDelete("RESTRICT")
+      .onDelete("CASCADE")
       .onUpdate("CASCADE");
     tools.boolean("is_borrowed").defaultTo(false);
   });

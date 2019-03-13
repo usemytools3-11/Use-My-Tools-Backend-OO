@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const lentTools = require("../models/lentToolsModel");
+const Tools = require("../models/toolsModel");
 
 router.get("/", (req, res) => {
   lentTools
@@ -28,7 +29,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", changeBool, async (req, res) => {
   if (!req.body.borrower_id || !req.body.tool_id) {
     res.status(400).json({ error: "must enter borrower_id and tool_id!" });
   } else {
@@ -41,14 +42,37 @@ router.post("/", async (req, res) => {
   }
 });
 
+async function changeBool(req, res, next) {
+  try {
+    const tool = await Tools.getById(req.body.tool_id);
+    if (tool) {
+      try {
+        const boolUpdated = { ...tool, is_borrowed: true };
+        console.log(boolUpdated);
+        await Tools.update(boolUpdated.id, boolUpdated);
+
+        next();
+      } catch (error) {
+        res
+          .status(500)
+          .json({ message: "something went wrong updating boolean!" });
+      }
+    } else {
+      res.status(404).json({ message: "couldn't find tool by that ID!" });
+    }
+  } catch (error) {
+    res.send(error);
+  }
+}
+
 router.put("/:id", async (req, res) => {
   if (!req.body.borrower_id || !req.body.tool_id) {
     res.status(400).json({ error: "must enter borrower_id and tool_id!" });
   } else {
     try {
-      const tool = await lentTools.update(req.params.id, req.body);
-      if (tool) {
-        res.status(200).json(tool);
+      const updatedTool = await lentTools.update(req.params.id, req.body);
+      if (updatedTool) {
+        res.status(200).json(updatedTtool);
       } else {
         res.status(404).json({ message: "couldn't find tool by that ID" });
       }
@@ -70,5 +94,21 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ message: "error deleting the tool" });
   }
 });
+
+// function restricted(req, res, next) {
+//   const token = req.headers.authorization;
+//   if (token) {
+//     jwt.verify(token, secret, (error, decodedToken) => {
+//       if (error) {
+//         res.status(401).json({ message: "login failed!" });
+//       } else {
+//         req.decodedJwt = decodedToken;
+//         next();
+//       }
+//     });
+//   } else {
+//     res.status(401).json({ message: "No record of this account!" });
+//   }
+// }
 
 module.exports = router;
