@@ -28,11 +28,9 @@ async function add(tool) {
   return getById(id);
 }
 
-function update(id, newTool) {
-  return db("tools")
-    .where({ id })
-    .first()
-    .update(newTool, "*");
+function update(id, updatedTool) {
+  const tool = await db("tools").where({ id }).update(updatedTool, "*");
+  return getById(tool)
 }
 
 function remove(id) {

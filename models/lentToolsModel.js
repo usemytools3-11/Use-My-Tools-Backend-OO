@@ -17,7 +17,6 @@ function getById(id) {
 function update(id, lentTool) {
   return db("lent-tools")
     .where({ id })
-    .first()
     .update(lentTool, "*");
 }
 
