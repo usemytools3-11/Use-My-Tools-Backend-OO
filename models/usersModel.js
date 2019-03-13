@@ -1,7 +1,7 @@
 db = require("../database/dbConfig");
 
 function get() {
-  return db("users");
+  return db("users").select("id", "first_name", "last_name");
 }
 
 function getBy(filter) {
@@ -12,6 +12,7 @@ function getBy(filter) {
 
 function getById(id) {
   return db("users")
+    .select("id", "first_name", "last_name")
     .where({ id })
     .first();
 }
