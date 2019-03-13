@@ -29,11 +29,9 @@ async function add(tool) {
 }
 
 function update(id, newTool) {
-  db("tools")
+  return db("tools")
     .where({ id })
     .update(newTool, "*");
-
-  return getById(id);
 }
 
 function remove(id) {

@@ -58,6 +58,30 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  if (!req.body.name || !req.body.price || !req.body.lender_id) {
+    res.status(400).json({ error: "must enter name, price, and lender_id!" });
+  } else {
+    try {
+      const count = await db("tools")
+        .where({ id: req.params.id })
+        .update(req.body);
+
+      if (count > 0) {
+        const tool = await db("tools")
+          .where({ id: req.params.id })
+          .first();
+
+        res.status(200).json(tool);
+      } else {
+        res.status(404).json({ error: "tool not found" });
+      }
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+});
+
 router.delete("/:id", async (req, res) => {
   try {
     const tool = await Tools.remove(req.params.id);
