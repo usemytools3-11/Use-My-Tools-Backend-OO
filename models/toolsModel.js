@@ -31,7 +31,8 @@ async function add(tool) {
 function update(id, newTool) {
   return db("tools")
     .where({ id })
-    .update(newTool, "id");
+    .first()
+    .update(newTool, "*");
 }
 
 function remove(id) {
