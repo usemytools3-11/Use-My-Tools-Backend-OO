@@ -29,7 +29,7 @@ async function add(tool) {
 }
 
 function update(id, updatedTool) {
-  const tool = await db("tools").where({ id }).update(updatedTool, "*");
+  const tool = await db("tools").where({ id }).update(updatedTool, "id");
   return getById(tool)
 }
 
