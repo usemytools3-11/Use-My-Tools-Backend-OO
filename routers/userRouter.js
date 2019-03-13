@@ -17,7 +17,11 @@ router.get("/:id", restricted, async (req, res) => {
     const user = await Users.getById(req.params.id);
 
     if (user) {
-      res.status(200).json(user);
+      res.status(200).json({
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name
+      });
     } else {
       res.status(404).json({ message: "user with that ID does not exist!" });
     }

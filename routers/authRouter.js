@@ -63,7 +63,15 @@ router.get("/authorization", (req, res) => {
       } else {
         const id = authorizedData.subject;
         Users.getById(id).then(user => {
-          res.status(200).json(user);
+          console.log(user);
+          res
+            .status(200)
+            .json({
+              id: user.id,
+              first_name: user.first_name,
+              last_name: user.last_name,
+              email: user.email
+            });
         });
       }
     });

@@ -12,7 +12,6 @@ function getBy(filter) {
 
 function getById(id) {
   return db("users")
-    .select("id", "first_name", "last_name")
     .where({ id })
     .first();
 }
