@@ -91,7 +91,7 @@ router.delete("/:id", async (req, res) => {
       res.status(404).json({ message: "tool with that ID could not be found" });
     }
   } catch (error) {
-    res.status(500).json({ message: "error deleting the tool" });
+    res.status(500).json(error);
   }
 });
 module.exports = router;
