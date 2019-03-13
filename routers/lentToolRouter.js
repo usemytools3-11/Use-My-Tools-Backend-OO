@@ -72,7 +72,7 @@ router.put("/:id", async (req, res) => {
     try {
       const updatedTool = await lentTools.update(req.params.id, req.body);
       if (updatedTool) {
-        res.status(200).json(updatedTtool);
+        res.status(200).json(updatedTool);
       } else {
         res.status(404).json({ message: "couldn't find tool by that ID" });
       }
@@ -86,12 +86,14 @@ router.delete("/:id", async (req, res) => {
   try {
     const tool = await lentTools.remove(req.params.id);
     if (tool > 0) {
-      res.status(200).json({ message: "tool has been deleted!" });
+      res.status(200).json({ message: "lent-tool has been deleted!" });
     } else {
-      res.status(404).json({ message: "tool with that ID could not be found" });
+      res
+        .status(404)
+        .json({ message: "lent-tool with that ID could not be found" });
     }
   } catch (error) {
-    res.status(500).json({ message: "error deleting the tool" });
+    res.status(500).json({ message: "error deleting the lent-tool" });
   }
 });
 

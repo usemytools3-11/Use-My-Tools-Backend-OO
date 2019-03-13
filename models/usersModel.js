@@ -26,10 +26,17 @@ function remove(id) {
     .del();
 }
 
+function update(id, newUser) {
+  return db("users")
+    .where({ id })
+    .update(newUser, "*");
+}
+
 module.exports = {
   get,
   getBy,
   getById,
   add,
+  update,
   remove
 };
