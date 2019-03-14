@@ -37,7 +37,7 @@ afterEach(async () => {
 });
 
 describe("server.js", () => {
-  describe("get /api/users", () => {
+  describe("get /api/tools", () => {
     it("should return 200", async () => {
       const token = generateToken(fakeUser);
       await request(server)
