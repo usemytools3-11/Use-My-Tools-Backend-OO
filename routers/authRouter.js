@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const db = require("../database/dbConfig");
 const Users = require("../models/usersModel");
 const secret = process.env.JWT_SECRET || "secret";
 
@@ -17,7 +16,7 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-// after / api / auth;
+//for / api / auth;
 router.post("/register", (req, res) => {
   let user = req.body;
   if (!user.first_name || !user.last_name || !user.email || !user.password) {
@@ -37,6 +36,7 @@ router.post("/register", (req, res) => {
   }
 });
 
+// checks user has an account and generates token
 router.post("/login", (req, res) => {
   let { email, password } = req.body;
   Users.getBy({ email })
@@ -54,6 +54,7 @@ router.post("/login", (req, res) => {
     });
 });
 
+//verifies user is logged in and returns user id, first name, last name, and email
 router.get("/authorization", (req, res) => {
   const token = req.headers.authorization;
   if (token) {

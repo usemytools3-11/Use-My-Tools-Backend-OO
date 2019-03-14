@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET || "secret";
 
+//restricts certain endpoints so that only users who are logged in can view them
 function restricted(req, res, next) {
   const token = req.headers.authorization;
   if (token) {

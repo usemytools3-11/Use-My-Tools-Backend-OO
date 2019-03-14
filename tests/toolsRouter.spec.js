@@ -3,7 +3,6 @@ const server = require("../api/server");
 const db = require("../database/dbConfig");
 const jwt = require("jsonwebtoken");
 const Tools = require("../models/toolsModel");
-const Users = require("../models/usersModel");
 const secret = process.env.JWT_SECRET || "secret";
 
 function generateToken(user) {

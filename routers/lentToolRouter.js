@@ -1,8 +1,35 @@
 const router = require("express").Router();
 const lentTools = require("../models/lentToolsModel");
 const Tools = require("../models/toolsModel");
-const { restricted } = require("../middleware/middleware");
+const { restricted } = require("../restricted-middleware/middleware");
 
+//middleware
+//used when creating/deleting requests
+//changes the is_borrowed boolean on a tool based on whether or not it is involved in a borrow
+async function changeBool(req, res, next) {
+  try {
+    const id = req.body.tool_id ? req.body.tool_id : req.params.id;
+    const tool = await Tools.getById(id);
+    if (tool) {
+      try {
+        const boolUpdated = { ...tool, is_borrowed: !tool.is_borrowed };
+        await Tools.update(boolUpdated.id, boolUpdated);
+
+        next();
+      } catch (error) {
+        res
+          .status(500)
+          .json({ message: "something went wrong updating boolean!" });
+      }
+    } else {
+      res.status(404).json({ message: "couldn't find tool by that ID!" });
+    }
+  } catch (error) {
+    res.send(error);
+  }
+}
+
+//for /api/lent-tools
 router.get("/", restricted, (req, res) => {
   lentTools
     .get()
@@ -26,29 +53,6 @@ router.post("/", restricted, changeBool, async (req, res) => {
     }
   }
 });
-
-async function changeBool(req, res, next) {
-  try {
-    const id = req.body.tool_id ? req.body.tool_id : req.params.id;
-    const tool = await Tools.getById(id);
-    if (tool) {
-      try {
-        const boolUpdated = { ...tool, is_borrowed: !tool.is_borrowed };
-        await Tools.update(boolUpdated.id, boolUpdated);
-
-        next();
-      } catch (error) {
-        res
-          .status(500)
-          .json({ message: "something went wrong updating boolean!" });
-      }
-    } else {
-      res.status(404).json({ message: "couldn't find tool by that ID!" });
-    }
-  } catch (error) {
-    res.send(error);
-  }
-}
 
 router.delete("/:id", restricted, changeBool, async (req, res) => {
   try {

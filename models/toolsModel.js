@@ -40,6 +40,8 @@ function remove(id) {
     .del();
 }
 
+//without this, number is stored as a string when using postgres, and gives an error because server does not recognize that string
+//changes string back to number
 function dbToJs(data) {
   if (Array.isArray(data)) {
     return data.map(row => {

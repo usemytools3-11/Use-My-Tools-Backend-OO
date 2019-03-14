@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const Tools = require("../models/toolsModel");
-const { restricted } = require("../middleware/middleware");
+const { restricted } = require("../restricted-middleware/middleware");
 
+//for /api/tools
 router.get("/", restricted, (req, res) => {
   Tools.get()
     .then(tools => {

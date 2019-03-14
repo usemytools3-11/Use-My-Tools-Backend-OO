@@ -1,8 +1,37 @@
 const router = require("express").Router();
 const Users = require("../models/usersModel");
 const lentTools = require("../models/lentToolsModel");
-const { restricted } = require("../middleware/middleware");
+const { restricted } = require("../restricted-middleware/middleware");
 
+//middleware
+//used when deleting users to delete any borrow requests that user is involved in
+const deleteBorrowRequest = async function(req, res, next) {
+  try {
+    const borrower_id = req.params.id;
+    const lentTool = await lentTools.getBy({ borrower_id });
+    if (!lentTool) {
+      next();
+    } else {
+      try {
+        const tool = await lentTools.remove(lentTool.id);
+        if (tool > 0) {
+          res.status(200).json({ message: "tool request has been deleted!" });
+          next();
+        } else {
+          res
+            .status(404)
+            .json({ message: "tool request with that ID could not be found" });
+        }
+      } catch (error) {
+        res.status(500).json({ message: "tool could not be removed" });
+      }
+    }
+  } catch (error) {
+    res.send(error);
+  }
+};
+
+//for /api/users
 router.get("/", restricted, (req, res) => {
   Users.get()
     .then(users => {
@@ -67,31 +96,5 @@ router.delete("/:id", deleteBorrowRequest, restricted, async (req, res) => {
     res.send(error);
   }
 });
-
-async function deleteBorrowRequest(req, res, next) {
-  try {
-    const borrower_id = req.params.id;
-    const lentTool = await lentTools.getBy({ borrower_id });
-    if (!lentTool) {
-      next();
-    } else {
-      try {
-        const tool = await lentTools.remove(lentTool.id);
-        if (tool > 0) {
-          res.status(200).json({ message: "tool request has been deleted!" });
-          next();
-        } else {
-          res
-            .status(404)
-            .json({ message: "tool request with that ID could not be found" });
-        }
-      } catch (error) {
-        res.status(500).json({ message: "tool could not be removed" });
-      }
-    }
-  } catch (error) {
-    res.send(error);
-  }
-}
 
 module.exports = router;

@@ -1,9 +1,7 @@
 const request = require("supertest");
 const server = require("../api/server");
-const bcrypt = require("bcryptjs");
 const db = require("../database/dbConfig");
 const jwt = require("jsonwebtoken");
-const Users = require("../models/usersModel");
 const secret = process.env.JWT_SECRET || "secret";
 
 function generateToken(user) {
@@ -32,7 +30,6 @@ afterEach(async () => {
 describe("authRouter.js", () => {
   describe("post /api/auth/register", () => {
     it("should return 201", async () => {
-      const token = generateToken(fakeUser);
       const res = await request(server)
         .post("/api/auth/register")
         .send(fakeUser);
