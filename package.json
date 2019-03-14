@@ -7,9 +7,11 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
+    "test": "jest --watch --verbose",
     "server": "nodemon index.js"
   },
   "devDependencies": {
+    "jest": "^24.5.0",
     "nodemon": "^1.18.10"
   },
   "dependencies": {
@@ -22,6 +24,7 @@
     "jsonwebtoken": "^8.5.0",
     "knex": "^0.16.3",
     "pg": "^7.8.2",
-    "sqlite3": "^4.0.6"
+    "sqlite3": "^4.0.6",
+    "supertest": "^4.0.0"
   }
 }

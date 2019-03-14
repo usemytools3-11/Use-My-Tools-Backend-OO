@@ -55,7 +55,7 @@ router.put("/:id", restricted, async (req, res) => {
   }
 });
 
-router.delete("/:id", deleteBorrowRequest, async (req, res) => {
+router.delete("/:id", deleteBorrowRequest, restricted, async (req, res) => {
   try {
     const user = await Users.remove(req.params.id);
     if (user > 0) {
@@ -76,6 +76,7 @@ async function deleteBorrowRequest(req, res, next) {
       const tool = await lentTools.remove(lentTool.id);
       if (tool > 0) {
         res.status(200).json({ message: "tool request has been deleted!" });
+        next();
       } else {
         res
           .status(404)
