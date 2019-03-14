@@ -72,18 +72,22 @@ async function deleteBorrowRequest(req, res, next) {
   try {
     const borrower_id = req.params.id;
     const lentTool = await lentTools.getBy({ borrower_id });
-    try {
-      const tool = await lentTools.remove(lentTool.id);
-      if (tool > 0) {
-        res.status(200).json({ message: "tool request has been deleted!" });
-        next();
-      } else {
-        res
-          .status(404)
-          .json({ message: "tool request with that ID could not be found" });
+    if (!lentTool) {
+      next();
+    } else {
+      try {
+        const tool = await lentTools.remove(lentTool.id);
+        if (tool > 0) {
+          res.status(200).json({ message: "tool request has been deleted!" });
+          next();
+        } else {
+          res
+            .status(404)
+            .json({ message: "tool request with that ID could not be found" });
+        }
+      } catch (error) {
+        res.status(500).json({ message: "tool could not be removed" });
       }
-    } catch (error) {
-      res.status(500).json({ message: "tool could not be removed" });
     }
   } catch (error) {
     res.status(500).json({ message: "tool request could not be fetched" });

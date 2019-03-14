@@ -39,7 +39,7 @@ describe("server.js", () => {
     });
   });
 
-  describe("get /api/users/id", () => {
+  describe("get /api/users/:id", () => {
     it("should return 200", async () => {
       await Users.add(fakeUser);
       const token = generateToken(fakeUser);
@@ -59,18 +59,24 @@ describe("server.js", () => {
         email: "updated@gmail.com",
         password: "test"
       };
-      const expected = {
-        first_name: "test",
-        last_name: "testing",
-        id: 1
-      };
       const token = generateToken(fakeUser);
-      await Users.update(1, updatedUser);
       const res = await request(server)
-        .get("/api/users")
+        .put("/api/users/1")
+        .send(updatedUser)
+        .set("authorization", token);
+      expect(res.status).toEqual(200);
+    });
+  });
+
+  describe("delete /api/users/:id", () => {
+    it("should return 200", async () => {
+      const userToDelete = await Users.add(fakeUser);
+      const token = generateToken(fakeUser);
+      const res = await request(server)
+        .delete("/api/users/1")
         .set("authorization", token);
 
-      expect(res.body).toEqual([expected]);
+      expect(res.status).toBe(200);
     });
   });
 });
