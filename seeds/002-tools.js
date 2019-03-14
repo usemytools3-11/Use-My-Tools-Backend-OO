@@ -50,14 +50,14 @@ exports.seed = function(knex, Promise) {
         {
           name: "Electrical Cutout Tool",
           photo_url:
-            "https://shop.harborfreight.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/i/m/image_24673.jpg",
+            "https://images.homedepot-static.com/productImages/550c445d-d694-4dbc-8eb1-9ab52e2322c4/svn/milwaukee-rotary-tools-2627-20-64_1000.jpg",
           price: 7.01,
           lender_id: 7
         },
         {
           name: "Electrical Impact Wrench",
           photo_url:
-            "https://www.harborfreight.com/media/catalog/product/i/m/image_11505.jpg",
+            "https://images.homedepot-static.com/productImages/a5be5f89-b70b-446f-98da-0805ce0950ca/svn/dewalt-impact-wrenches-dw292-64_1000.jpg",
           price: 6.21,
           lender_id: 8
         },
