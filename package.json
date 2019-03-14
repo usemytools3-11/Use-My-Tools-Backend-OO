@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
-    "test": "DB_ENV=testing jest --verbose",
+    "test": "jest --watch --verbose",
     "server": "nodemon index.js"
   },
   "devDependencies": {
