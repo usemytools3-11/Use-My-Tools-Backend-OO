@@ -14,22 +14,6 @@ router.get("/", restricted, (req, res) => {
     });
 });
 
-// router.get("/:id", restricted, async (req, res) => {
-//   try {
-//     const tool = await lentTools.getById(req.params.id);
-
-//     if (tool) {
-//       res.status(200).json(tool);
-//     } else {
-//       res.status(404).json({ message: "tool with that ID does not exist!" });
-//     }
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Error retrieving the tool"
-//     });
-//   }
-// });
-
 router.post("/", restricted, changeBool, async (req, res) => {
   if (!req.body.borrower_id || !req.body.tool_id) {
     res.status(400).json({ error: "must enter borrower_id and tool_id!" });
@@ -46,7 +30,6 @@ router.post("/", restricted, changeBool, async (req, res) => {
 async function changeBool(req, res, next) {
   try {
     const id = req.body.tool_id ? req.body.tool_id : req.params.id;
-    console.log(id);
     const tool = await Tools.getById(id);
     if (tool) {
       try {
@@ -66,23 +49,6 @@ async function changeBool(req, res, next) {
     res.send(error);
   }
 }
-
-// router.put("/:id", restricted, async (req, res) => {
-//   if (!req.body.borrower_id || !req.body.tool_id) {
-//     res.status(400).json({ error: "must enter borrower_id and tool_id!" });
-//   } else {
-//     try {
-//       const updatedTool = await lentTools.update(req.params.id, req.body);
-//       if (updatedTool) {
-//         res.status(200).json(updatedTool);
-//       } else {
-//         res.status(404).json({ message: "couldn't find tool by that ID" });
-//       }
-//     } catch (error) {
-//       res.status(500).json({ message: "error updating tool" });
-//     }
-//   }
-// });
 
 router.delete("/:id", restricted, changeBool, async (req, res) => {
   try {

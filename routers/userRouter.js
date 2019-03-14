@@ -64,7 +64,7 @@ router.delete("/:id", deleteBorrowRequest, restricted, async (req, res) => {
       res.status(404).json({ message: "user with that ID could not be found" });
     }
   } catch (error) {
-    res.status(500).json(error);
+    res.send(error);
   }
 });
 
@@ -90,7 +90,7 @@ async function deleteBorrowRequest(req, res, next) {
       }
     }
   } catch (error) {
-    res.status(500).json({ message: "tool request could not be fetched" });
+    res.send(error);
   }
 }
 

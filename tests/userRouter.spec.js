@@ -3,6 +3,7 @@ const server = require("../api/server");
 const db = require("../database/dbConfig");
 const jwt = require("jsonwebtoken");
 const Users = require("../models/usersModel");
+const lentTools = require("../models/lentToolsModel");
 const secret = process.env.JWT_SECRET || "secret";
 
 function generateToken(user) {
@@ -70,8 +71,8 @@ describe("userRouter.js", () => {
 
   describe("delete /api/users/:id", () => {
     it("should return 200", async () => {
-      const userToDelete = await Users.add(fakeUser);
       const token = generateToken(fakeUser);
+      const userToDelete = await Users.add(fakeUser);
       const res = await request(server)
         .delete("/api/users/1")
         .set("authorization", token);
