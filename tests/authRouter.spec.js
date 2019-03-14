@@ -29,7 +29,7 @@ afterEach(async () => {
   await db("users").truncate();
 });
 
-describe("server.js", () => {
+describe("authRouter.js", () => {
   describe("post /api/auth/register", () => {
     it("should return 201", async () => {
       const token = generateToken(fakeUser);
