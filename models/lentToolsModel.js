@@ -11,9 +11,7 @@ function getBy(filter) {
 }
 
 function getById(id) {
-  return db("lent-tools")
-    .where({ id })
-    .first();
+  return db("lent-tools").where({ id });
 }
 
 function update(id, lentTool) {
