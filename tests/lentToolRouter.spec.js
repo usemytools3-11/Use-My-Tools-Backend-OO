@@ -41,6 +41,7 @@ const fakeTool = {
 
 afterEach(async () => {
   await db("lent-tools").truncate();
+  await db("tools").truncate();
 });
 
 describe("lentToolRouter.js", () => {
@@ -66,15 +67,16 @@ describe("lentToolRouter.js", () => {
     });
   });
 
-  //   describe("delete /api/users/:id", () => {
-  //     it("should return 200", async () => {
-  //       const userToDelete = await Users.add(fakeUser);
-  //       const token = generateToken(fakeUser);
-  //       const res = await request(server)
-  //         .delete("/api/users/1")
-  //         .set("authorization", token);
+  describe("delete /api/lent-tools/:id", () => {
+    it("should return 200", async () => {
+      await Tools.add(fakeTool);
+      await lentTools.add(fakeRequest);
+      const token = generateToken(fakeUser);
+      const res = await request(server)
+        .delete("/api/lent-tools/1")
+        .set("authorization", token);
 
-  //       expect(res.status).toBe(200);
-  //     });
-  //   });
+      expect(res.status).toBe(200);
+    });
+  });
 });

@@ -18,7 +18,7 @@ server.use("/api/tools", toolsRouter);
 server.use("/api/lent-tools", lentToolsRouter);
 
 server.get("/api", (req, res) => {
-  res.send("it's working!");
+  res.status(200).json("Welcome to Use-My-Tools!");
 });
 
 module.exports = server;
