@@ -49,18 +49,20 @@ describe("server.js", () => {
       const res = await request(server)
         .post("/api/auth/login")
         .send(fakeUser);
-
       expect(res.status).toBe(200);
     });
   });
 
-  //   describe("get /api/auth/authorization", () => {
-  //     it("should return 200", async () => {
-  //       const token = generateToken(fakeUser);
-  //       const res = await request(server)
-  //         .get("/api/auth/authorization")
-  //         .set("authorization", token);
-  //       expect(res.status).toBe(200);
-  //     });
-  //   });
+  describe("get /api/auth/authorization", () => {
+    it("should return 200", async () => {
+      await request(server)
+        .post("/api/auth/register")
+        .send(fakeUser);
+      const token = generateToken(fakeUser);
+      const res = await request(server)
+        .get("/api/auth/authorization")
+        .set("authorization", token);
+      expect(res.status).toBe(200);
+    });
+  });
 });
