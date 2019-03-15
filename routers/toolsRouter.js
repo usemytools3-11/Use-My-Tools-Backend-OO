@@ -2,6 +2,32 @@ const router = require("express").Router();
 const Tools = require("../models/toolsModel");
 const { restricted } = require("../restricted-middleware/middleware");
 
+const deleteBorrowRequest = async function(req, res, next) {
+  try {
+    const tool_id = req.params.id;
+    const lentTool = await lentTools.getBy({ tool_id });
+    if (!lentTool) {
+      next();
+    } else {
+      try {
+        const tool = await lentTools.remove(lentTool.id);
+        if (tool > 0) {
+          res.status(200).json({ message: "tool request has been deleted!" });
+          next();
+        } else {
+          res
+            .status(404)
+            .json({ message: "tool request with that ID could not be found" });
+        }
+      } catch (error) {
+        res.status(500).json({ message: "tool could not be removed" });
+      }
+    }
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 //for /api/tools
 router.get("/", restricted, (req, res) => {
   Tools.get()
@@ -67,7 +93,7 @@ router.put("/:id", restricted, async (req, res) => {
   }
 });
 
-router.delete("/:id", restricted, async (req, res) => {
+router.delete("/:id", deleteBorrowRequest, restricted, async (req, res) => {
   try {
     const tool = await Tools.remove(req.params.id);
     if (tool > 0) {
